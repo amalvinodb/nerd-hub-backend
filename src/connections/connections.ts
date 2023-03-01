@@ -4,7 +4,7 @@ const connectDB = async () => {
 	try {
 		// mongodb connection string
 		mongoose.set("strictQuery", false);
-		const con = await mongoose.connect("mongodb://localhost:27017/nerd_hub");
+		const con = await mongoose.connect("mongodb://localhost:27017/nerd");
 
 		console.log(`MongoDB connected`);
 	} catch (err) {

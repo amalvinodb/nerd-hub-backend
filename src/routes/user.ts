@@ -1,8 +1,9 @@
 import express from "express";
-
+import user from "../controller/user.controller"
 const router = express.Router();
-router.get("/", (req, res) => {
-	res.status(200).json({ status: true, message: "this is user side" });
-});
+import middleware from '../middleware/user-auth'
 
+router.get("/user-profile",middleware.authenticateTocken,user.getUserProfile)
+
+router.post('/edit-User')
 export default router;

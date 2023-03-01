@@ -13,7 +13,7 @@ const app = express();
 const corsOptions={
     origin:"http://localhost:4200",
     credentials:true,
-    optionSucessStatus:200
+    optionSucessStatus:200 
 }
 app.use(cors(corsOptions))
 //making able to read and send responses and to read the url
