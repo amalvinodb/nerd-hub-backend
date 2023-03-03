@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { IUser, body, FUser, headers } from "../types/user.interface";
+import { IUser, body, FUser, postBody,Posts } from "../types/user.interface";
 import UserServices from "../services/UserServices";
 import * as dotenv from "dotenv";
 
@@ -11,7 +11,7 @@ export default {
 		return new Promise((resolve, reject) => {
 			UserServices.getPassword(body.name)
 				.then((password) => {
-					console.log("ehello");
+					
 					if (typeof password === "string") {
 						bcrypt
 							.compare(body.password, password)
@@ -19,7 +19,7 @@ export default {
 								resolve(true);
 							})
 							.catch((error) => {
-								console.log(error);
+								reject(error)
 							});
 					}
 				})
@@ -71,7 +71,7 @@ export default {
 	},
 	getUserFromTocken(header: any) {
 		return new Promise((resolve, reject) => {
-			const tocken = header["authentication"] || " ";
+			const tocken = header["authorization"] || " ";
 			const data: any = jwt.verify(tocken, process.env.TOCKEN_SECRET!);
 
 			UserServices.getUserDetails(data.name)
@@ -87,4 +87,37 @@ export default {
 				});
 		});
 	},
+	editUserName(newName:string,currentUser:IUser){
+		return new Promise((resolve,reject)=>{
+			if(newName === currentUser.name){
+				resolve("nothing have been changed")
+			}else{
+				UserServices.editUserName(newName,currentUser.name!).then((message)=>{
+					resolve(message)
+				}).catch((error)=>{
+					reject(error)
+				})
+			}
+		})
+		
+	},
+	generatePost(data:postBody,userId:string){
+		return new Promise((resolve,reject)=>{
+			const post:Posts = {
+				image: 'string',
+				userId: 'string',
+				discription: 'string',
+				likesCount: 0,
+				commentCount: 0,
+				uploadDate:new Date(),
+				likes: [],
+				comments: [],
+			}
+			UserServices.setPost(post).then((message)=>{
+				resolve(message)
+			}).catch((error)=>{
+				reject(error)
+			})
+		})
+	}
 };

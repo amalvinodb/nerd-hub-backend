@@ -1,4 +1,5 @@
 export interface IUser {
+	_id:string | undefined;
 	name: string | undefined;
 	email: string | undefined;
 	birth: Date | undefined;
@@ -31,5 +32,26 @@ export interface headers {
 	host: string;
 	"accept-encoding": string;
 	connection: string;
+}
+export interface Posts {
+	_id?:string;
+	image: string;
+	userId: string;
+	discription: string;
+	likesCount: number;
+	commentCount: number;
+	uploadDate:Date;
+	likes: [string]|[];
+	comments: [
+		{
+			comment: string;
+			userId: string;
+			date:Date;
+		}
+	]|[];
+}
+export interface postBody{
+	image:FormData;
+	discription:string;
 }
 // export default IUser;

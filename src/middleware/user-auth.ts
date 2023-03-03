@@ -6,7 +6,8 @@ dotenv.config();
 
 export default {
 	authenticateTocken: (req: Request, res: Response, next: NextFunction) => {
-		let tocken = req.headers["authentication"] || " ";
+		// console.log(req.headers)
+		let tocken = req.headers["authorization"] || " ";
 		tocken = tocken + "";
 			const data = jwt.verify(tocken,process.env.TOCKEN_SECRET!);
 			if (data) {
