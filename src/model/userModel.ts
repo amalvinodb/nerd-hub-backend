@@ -36,18 +36,24 @@ const schema = new mongoose.Schema({
 	image: {
 		type: String,
 	},
-	posts:{
-		type:Number,
+	posts: {
+		type: Number,
 	},
-	following:{
-		type:Number,
+	followingCount: {
+		type: Number,
 	},
-	followers:{
-		type:Number,
+	following: {
+		type: Array,
 	},
-	discription:{
-		type:String,
-	}
+	followersCount: {
+		type: Number,
+	},
+	followers: {
+		type: Array,
+	},
+	discription: {
+		type: String,
+	},
 });
 
 const User = mongoose.model("User", schema);

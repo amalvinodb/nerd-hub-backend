@@ -12,6 +12,7 @@ export interface IUser {
 	followingCount: number | undefined;
 	followersCount: number | undefined;
 	following: [string];
+	followers:[string];
 }
 export interface body {
 	name: string;
@@ -38,10 +39,10 @@ export interface Posts {
 	image: string;
 	userId: string;
 	discription: string;
-	likesCount: number;
+	likes_count: number;
 	commentCount: number;
 	uploadDate:Date;
-	likes: [string]|[];
+	likes: [string] ;
 	comments: [
 		{
 			comment: string;

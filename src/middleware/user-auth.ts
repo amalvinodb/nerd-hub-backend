@@ -6,17 +6,16 @@ dotenv.config();
 
 export default {
 	authenticateTocken: (req: Request, res: Response, next: NextFunction) => {
-		// console.log(req.headers)
 		let tocken = req.headers["authorization"] || " ";
 		tocken = tocken + "";
-			const data = jwt.verify(tocken,process.env.TOCKEN_SECRET!);
-			if (data) {
-				next();
-			} else {
-				res.status(400).json({
-					status: false,
-					message: "the auth tocken is invalid",
-				});
-			}
+		const data = jwt.verify(tocken, process.env.TOCKEN_SECRET!);
+		if (data) {
+			next();
+		} else {
+			res.status(400).json({
+				status: false,
+				message: "the auth tocken is invalid",
+			});
+		}
 	},
 };
