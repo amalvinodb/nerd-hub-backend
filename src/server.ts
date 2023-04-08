@@ -6,28 +6,37 @@ import adminRouter from "./routes/admin";
 import userRouter from "./routes/user";
 import indexRouter from "./routes/index";
 import connect from "./connections/connections";
-import bodyParser from "body-parser";
+import http from "http";
+import { Server } from "socket.io";
+
 //this is the connections and code to configure the node server project
 dotenv.config();
 const app = express();
+const server = http.createServer(app);
+export const io = new Server(server, {
+	path:'/socket',
+	cors: {
+		origin: ["http://localhost:4200"],
+		methods: ["GET", "POST"],
+	},
+});
+
 const corsOptions = {
 	origin: "http://localhost:4200",
 	credentials: true,
 	optionSucessStatus: 200,
 };
+
 app.use(cors(corsOptions));
-//making able to read and send responses and to read the url
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(bodyParser.json({ limit: "50mb" }));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 connect();
-//linking the base routes and urls
+
 app.use("/", indexRouter);
 app.use("/user", userRouter);
 app.use("/admin", adminRouter);
-//handling the errors of proper format
+
 app.use(function (req: Request, res: Response, next: NextFunction) {
 	next(createError(404));
 });
@@ -41,7 +50,7 @@ app.use(function (err: Error, req: Request, res: Response, next: NextFunction) {
 		stack: req.app.get("env") === "development" ? err.stack : {},
 	});
 });
-//connections to the proper posts
-app.listen(process.env.PORT_NO, (): void => {
+
+server.listen(process.env.PORT_NO, (): void => {
 	console.log("server started");
 });

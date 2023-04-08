@@ -4,6 +4,8 @@ import { IUser, body, FUser, postBody, Posts } from "../types/user.interface";
 import UserServices from "../services/User.service";
 import * as dotenv from "dotenv";
 import imageService from "../services/imageUpload.service";
+import Admin from "../model/adminModel";
+import adminService from "../services/admin.service";
 
 dotenv.config();
 
@@ -49,6 +51,27 @@ export default {
 				.catch((error) => {
 					reject("user dose not exits");
 				});
+		});
+	},
+	generateAdminTocken(admin: any) {
+		return new Promise((resolve, reject) => {
+			const acessTocken: string = jwt.sign(admin, process.env.TOCKEN_SECRET!, { expiresIn: "2h" });
+			if (acessTocken) {
+				resolve(acessTocken);
+			} else {
+				reject("could not generate tocken");
+			}
+		});
+	},
+	getAdminFromTocken(header: any) {
+		return new Promise((resolve, reject) => {
+			const tocken = header["authorization"] || " ";
+			const data: any = jwt.verify(tocken, process.env.TOCKEN_SECRET!);
+			adminService.getAdmin(data.name).then((admin) => {
+				resolve(admin);
+			}).catch((err)=>{
+				reject(err)
+			})
 		});
 	},
 };

@@ -11,10 +11,10 @@ export default {
 	confirmPassword(body: body) {
 		return new Promise((resolve, reject) => {
 			UserServices.getPassword(body.name)
-				.then((password) => {
-					if (typeof password === "string") {
+				.then((user:any) => {
+					if (typeof user.password === "string"&&user.status) {
 						bcrypt
-							.compare(body.password, password)
+							.compare(body.password, user.password)
 							.then((status) => {
 								resolve(true);
 							})
@@ -45,19 +45,17 @@ export default {
 			}
 		});
 	},
-	editUserName(newName: string, currentUser: IUser) {
+	editUserName(userData:any, currentUser: IUser) {
 		return new Promise((resolve, reject) => {
-			if (newName === currentUser.name) {
-				resolve("nothing have been changed");
-			} else {
-				UserServices.editUserName(newName, currentUser.name!)
+			
+				UserServices.editUserName(userData, currentUser.name!)
 					.then((message) => {
 						resolve(message);
 					})
 					.catch((error) => {
 						reject(error);
 					});
-			}
+			
 		});
 	},
 	makeFriend(user: IUser, UserId: string) {

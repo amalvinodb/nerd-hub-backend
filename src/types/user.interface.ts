@@ -38,6 +38,9 @@ export interface Posts {
 	_id?:string;
 	image: string;
 	userId: string;
+	userImage:string;
+	userName:string;
+	userEmail:string;
 	discription: string;
 	likes_count: number;
 	commentCount: number;

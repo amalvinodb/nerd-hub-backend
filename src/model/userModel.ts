@@ -53,7 +53,7 @@ const schema = new mongoose.Schema({
 	},
 	discription: {
 		type: String,
-	},
+	}
 });
 
 const User = mongoose.model("User", schema);

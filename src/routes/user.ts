@@ -24,4 +24,8 @@ router.post("/makePost", middleware.authenticateTocken, upload.single("image"), 
 router.get("/getAllPost", middleware.authenticateTocken, post.getAllPost);
 
 router.post('/likePost',middleware.authenticateTocken,post.likePost)
+
+router.post('/commentPost',middleware.authenticateTocken,post.makeComment)
+
+router.get('/getPost',middleware.authenticateTocken,post.getPostDetails)
 export default router;

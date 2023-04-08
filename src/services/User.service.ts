@@ -9,7 +9,7 @@ export default {
 			User.findOne({ name: userName })
 				.then((data) => {
 					if (data != null) {
-						resolve(data.password);
+						resolve(data);
 					} else {
 						reject("user dose not exist");
 					}
@@ -56,9 +56,9 @@ export default {
 				});
 		});
 	},
-	editUserName(newName: string, oldName: string) {
+	editUserName(userData: any, oldName: string) {
 		return new Promise((resolve, reject) => {
-			User.updateOne({ name: oldName }, { $set: { name: newName } })
+			User.updateOne({ name: oldName }, { $set: { name: userData.userName,discription:userData.profileDiscription } })
 				.then((data) => {
 					resolve("user data have been updated");
 				})

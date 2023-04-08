@@ -20,6 +20,9 @@ export default {
 		return new Promise((resolve, reject) => {
 			const data = new Post({
 				userId: post.userId,
+				userImage: post.userImage,
+				userName: post.userName,
+				userEmail: post.userEmail,
 				uploadDate: post.uploadDate,
 				status: true,
 				image: post.image,
@@ -68,7 +71,7 @@ export default {
 						resolve("successfully liked the post");
 					})
 					.catch((error) => {
-						console.log(error);
+						
 						reject("could not like the post");
 					});
 			} else {
@@ -98,7 +101,7 @@ export default {
 						resolve("successfully removed liked the post");
 					})
 					.catch((error) => {
-						console.log(error);
+						
 						reject("could not like the post");
 					});
 			}
@@ -116,4 +119,22 @@ export default {
 				});
 		});
 	},
+	addComment(postId:string,post:any){
+		return new Promise((resolve,reject)=>{
+			Post.findOne({_id:new ObjectId(postId)}).then((postB)=>{
+				Post.updateOne({_id:new ObjectId(postId)},{$set:{
+					comments:post.comments,
+					comment_count:post.comment_count
+				}}).then((data)=>{
+					resolve("the data have been updated")
+					
+				}).catch((err)=>{
+					reject(err)
+				})
+			}).catch((err)=>{
+				reject(err)
+			})
+			
+		})
+	}
 };

@@ -16,6 +16,8 @@ export default {
 			});
 	},
 	editUserName(req: Request, res: Response) {
+
+		
 		tockenRepository
 			.getUserFromTocken(req.headers)
 			.then((user: IUser | any) => {
@@ -28,7 +30,7 @@ export default {
 					})
 				}
 				userRepository
-					.editUserName(req.body.userName, user)
+					.editUserName(req.body, user)
 					.then((message) => {
 						tockenRepository
 							.generateTocken(req.body.userName)

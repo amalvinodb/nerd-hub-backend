@@ -4,6 +4,15 @@ const schema = new mongoose.Schema({
 	userId: {
 		type: String,
 	},
+	userImage:{
+		type:String,
+	},
+	userName:{
+		type:String,
+	},
+	userEmail:{
+		type:String,
+	},
 	uploadDate: {
 		type: Date,
 	},

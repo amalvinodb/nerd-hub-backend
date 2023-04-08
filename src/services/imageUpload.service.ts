@@ -1,4 +1,4 @@
-import { rejects } from "assert";
+
 import cloudinary from "cloudinary";
 
 cloudinary.v2.config({

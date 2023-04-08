@@ -10,7 +10,7 @@ export default {
 			.getUserFromTocken(req.headers)
 			.then((user: IUser | any) => {
 				postRepository
-					.generatePost(req.body, user._id, req.file)
+					.generatePost(req.body, user, req.file)
 					.then((message) => {
 						res.status(200).json({ message });
 					})
@@ -23,16 +23,22 @@ export default {
 			});
 	},
 	likePost(req: Request, res: Response) {
-		console.log(req.body)
-		tockenRepository.getUserFromTocken(req.headers).then((user: IUser | any) => {
-			postRepository.likePost(user, req.body.postId).then((data)=>{
-				res.status(200).json(data)
-			}).catch((err)=>{
-				res.status(400).json(err)
+		
+		tockenRepository
+			.getUserFromTocken(req.headers)
+			.then((user: IUser | any) => {
+				postRepository
+					.likePost(user, req.body.postId)
+					.then((data) => {
+						res.status(200).json(data);
+					})
+					.catch((err) => {
+						res.status(400).json(err);
+					});
+			})
+			.catch((err) => {
+				res.status(400).json(err);
 			});
-		}).catch((err)=>{
-			res.status(400).json(err)
-		});
 	},
 	getUserPost(req: Request, res: Response) {
 		tockenRepository
@@ -55,10 +61,41 @@ export default {
 		postRepository
 			.getAllPost()
 			.then((data) => {
-				res.status(200).json(data)
+		
+
+				res.status(200).json(data);
+			})
+			.catch((err) => {
+				res.status(400).json(err);
+			});
+	},
+	makeComment(req: Request, res: Response) {	
+		tockenRepository
+			.getUserFromTocken(req.headers)
+			.then((user) => {
+				postRepository.makeComment(req.body, user).then((message)=>{
+					postRepository.confirmPost(req.body.data.post).then((data)=>{
+						res.status(200).json(data)
+					}).catch((err)=>{
+						res.status(400).json(err)
+					})
+				}).catch((err)=>{
+					res.status(400).json(err)
+				})
 			})
 			.catch((err) => {
 				res.status(400).json(err)
+			});
+	},
+	getPostDetails(req: Request, res: Response) {
+		const postId = req.query.postId + "";
+		postRepository
+			.confirmPost(postId)
+			.then((data) => {
+				res.status(200).json(data);
+			})
+			.catch((err) => {
+				res.status(400).json(err);
 			});
 	},
 };

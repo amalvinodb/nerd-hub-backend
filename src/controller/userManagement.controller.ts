@@ -21,7 +21,7 @@ export default {
 					tockenRepository
 						.generateTocken(req.body.name)
 						.then((tocken) => {
-							res.status(200).json({ status: true, message: "successfully logged in to the user account", tocken });
+							res.status(200).json({ status: true, message: "successfully logged in to the user account", tocken});
 						})
 						.catch((error) => {
 							res.status(400).json({ status: false, error });

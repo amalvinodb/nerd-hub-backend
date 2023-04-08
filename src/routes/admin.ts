@@ -1,9 +1,10 @@
 import express from "express";
+import adminController from "../controller/admin.controller";
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
-	res.status(200).json({ status: true, message: "this is admin side" });
-});
+router.get("/", adminController.getUsers);
+
+router.post("/login",adminController.login);
 
 export default router;
